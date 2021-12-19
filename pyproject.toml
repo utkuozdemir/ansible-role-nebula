@@ -7,7 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "==3.10"
+python = "^3.10"
 
 # https://pypi.org/project/ansible/#history
 ansible = "==5.0.1"
