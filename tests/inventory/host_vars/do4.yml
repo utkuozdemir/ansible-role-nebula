@@ -1,7 +1,3 @@
 ---
 nebula_am_lighthouse: true
 nebula_ip: 172.20.0.4/24
-
-k3s_extra_args:
-  - --node-ip=172.20.0.4
-  - --node-external-ip=167.172.184.181
