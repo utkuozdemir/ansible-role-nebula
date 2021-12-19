@@ -69,7 +69,9 @@ jobs:
       - name: Re-run tests in local to check idempotency
         id: rerun_test
         working-directory: tests/
-        run: poetry run ansible-playbook -i inventories/local test.yml
+        run: |
+          OUTPUT=$(poetry run ansible-playbook -i inventories/local test.yml)
+          echo "::set-output name=stdout::$OUTPUT"
 
       - name: Check for idempotency
         run: |
