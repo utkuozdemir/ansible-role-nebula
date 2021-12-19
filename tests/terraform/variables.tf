@@ -15,7 +15,7 @@ variable "size" {
 
 variable "ssh_keys" {
   type    = list(number)
-  default = [32679303]
+  default = [32701494]
 }
 
 variable "name_prefix" {
