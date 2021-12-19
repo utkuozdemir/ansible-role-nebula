@@ -66,6 +66,16 @@ jobs:
         working-directory: tests/
         run: poetry run ansible-playbook -i inventories/local test.yml
 
+      - name: Re-run tests in local to check idempotency
+        id: rerun_test
+        working-directory: tests/
+        run: poetry run ansible-playbook -i inventories/local test.yml
+
+      - name: Check for idempotency
+        run: "! [[ echo $RERUN_OUTPUT =~ ^.*changed=[1-9].*$ ]]"
+        env:
+          RERUN_OUTPUT: ${{join(steps.run_tests.outputs.*, '\n')}}
+
       - name: Prepare secrets
         run: |
           echo "${{ secrets.DO_TOKEN }}" > tests/terraform/.do-token.txt
