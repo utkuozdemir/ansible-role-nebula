@@ -70,14 +70,7 @@ jobs:
         id: rerun_test
         working-directory: tests/
         run: |
-          OUTPUT=$(poetry run ansible-playbook -i inventories/local test.yml)
-          echo "::set-output name=stdout::$OUTPUT"
-
-      - name: Check for idempotency
-        run: |
-          ! echo $RERUN_OUTPUT | grep -w "changed=[1-9]"
-        env:
-          RERUN_OUTPUT: ${{ steps.rerun_test.outputs.stdout }}
+          ! poetry run ansible-playbook -i inventories/local test.yml | grep -w "changed=[1-9]"
 
       - name: Prepare secrets
         run: |
