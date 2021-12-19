@@ -27,5 +27,5 @@ resource "local_file" "ansible_inventory" {
     tags     = sort(distinct(flatten(digitalocean_droplet.droplet.*.tags)))
     }
   )
-  filename = "../inventory/hosts"
+  filename = "../inventories/do/hosts"
 }

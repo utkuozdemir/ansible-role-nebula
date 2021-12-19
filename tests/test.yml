@@ -1,4 +1,14 @@
 ---
+- name: Assert that nebula hosts are not empty
+  hosts: localhost
+  any_errors_fatal: true
+  tasks:
+    - name: Assert that there is at least 1 host
+      ansible.builtin.assert:
+        that: (groups['nebula'] | default([])) | length > 0
+        fail_msg: No hosts found
+        success_msg: There is at least 1 host in nebula group
+
 - name: Setup Nebula
   hosts: nebula
   strategy: free
