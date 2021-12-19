@@ -60,20 +60,23 @@ jobs:
         run: terraform fmt -recursive --check
 
       - name: Prepare terraform secrets
-        run: echo "${{ secrets.DO_TOKEN }}" > test/terraform/.do-token.txt
+        working-directory: tests/terraform/
+        run: echo "${{ secrets.DO_TOKEN }}" > .do-token.txt
 
       - name: Create terraform resources for test
+        working-directory: tests/terraform/
         run: terraform init && terraform apply -auto-approve
 
-        # TODO: run ansible
       - name: Run tests
-        working-directory: test/
+        working-directory: tests/terraform/
         run: poetry run ansible-playbook -i inventory test.yml
 
       - name: Delete terraform resources
+        working-directory: tests/terraform/
         if: ${{ always() }}
         run: terraform destroy -auto-approve
 
       - name: Delete terraform secrets
+        working-directory: tests/terraform/
         if: ${{ always() }}
-        run: rm -rf test/terraform/.do-token.txt
+        run: rm -rf .do-token.txt
