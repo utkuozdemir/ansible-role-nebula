@@ -1,5 +1,5 @@
 ---
-name: Lint, build & test
+name: Build
 on:
   push:
     branches:
