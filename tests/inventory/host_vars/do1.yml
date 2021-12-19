@@ -1,0 +1,9 @@
+---
+nebula_ip: 172.20.0.1/24
+
+k3s_extra_args:
+  - --node-ip=172.20.0.1
+
+nebula_is_ca: true
+
+k3s_is_master: true

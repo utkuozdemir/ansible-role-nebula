@@ -49,5 +49,31 @@ jobs:
       - name: Install poetry dependencies
         run: poetry install
 
-      - name: Lint Ansible files
+      - name: Lint Ansible sources
         run: poetry run ansible-lint
+
+      - uses: hashicorp/setup-terraform@v1.3.2
+        with:
+          terraform_version: 1.1.2
+
+      - name: Lint terraform sources
+        run: terraform fmt -recursive --check
+
+      - name: Prepare terraform secrets
+        run: echo "${{ secrets.DO_TOKEN }}" > test/terraform/.do-token.txt
+
+      - name: Create terraform resources for test
+        run: terraform init && terraform apply -auto-approve
+
+        # TODO: run ansible
+      - name: Run tests
+        working-directory: test/
+        run: poetry run ansible-playbook -i inventory test.yml
+
+      - name: Delete terraform resources
+        if: ${{ always() }}
+        run: terraform destroy -auto-approve
+
+      - name: Delete terraform secrets
+        if: ${{ always() }}
+        run: rm -rf test/terraform/.do-token.txt
