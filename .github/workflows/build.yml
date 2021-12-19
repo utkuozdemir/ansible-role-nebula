@@ -61,7 +61,7 @@ jobs:
 
       - name: Run tests in local
         working-directory: tests/
-        run: poetry run ansible-playbook -i local test.yml
+        run: poetry run ansible-playbook -i inventories/local test.yml
 
       - name: Prepare secrets
         run: |
@@ -76,7 +76,7 @@ jobs:
 
       - name: Run tests in VMs
         working-directory: tests/
-        run: poetry run ansible-playbook -i inventory test.yml
+        run: poetry run ansible-playbook -i inventories/do test.yml
 
       - name: Delete terraform resources
         working-directory: tests/terraform/
