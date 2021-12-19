@@ -1,0 +1,80 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+pki:
+  ca: {{ nebula_config_dir }}/ca.crt
+  cert: {{ nebula_config_dir }}/{{ nebula_name }}.crt
+  key: {{ nebula_config_dir }}/{{ nebula_name }}.key
+  {% if nebula_pki_disconnect_invalid is defined %}
+  disconnect_invalid: {{ nebula_pki_disconnect_invalid }}
+  {% endif %}
+
+static_host_map:
+  {% for host in ansible_play_hosts_all %}
+  {% if (hostvars[host]['nebula_am_lighthouse'] | default(false)) and (hostvars[host]['nebula_is_member'] | default(true)) %}
+  "{{ hostvars[host]['nebula_ip'].split('/')[0] }}": ["{{ hostvars[host]['nebula_routable_ip'] | default('NONE') }}:{{ hostvars[host]['nebula_listen_port'] | default(4242) }}"]
+  {% endif %}
+  {% endfor %}
+
+lighthouse:
+  am_lighthouse: {{ nebula_am_lighthouse }}
+  interval: {{ nebula_lighthouse_interval }}
+  hosts:
+  {% if not nebula_am_lighthouse %}
+  {% for host in ansible_play_hosts_all %}
+  {% if (hostvars[host]['nebula_am_lighthouse'] | default(false)) and (hostvars[host]['nebula_is_member'] | default(true)) %}
+    - {{ hostvars[host]['nebula_ip'].split('/')[0] }}
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+listen:
+  host: {{ nebula_listen_host }}
+  port: {{ nebula_listen_port }}
+  {% if nebula_listen_batch is defined %}
+  batch: {{ nebula_listen_batch }}
+  {% endif %}
+  {% if nebula_listen_read_buffer is defined %}
+  read_buffer: {{ nebula_listen_read_buffer }}
+  {% endif %}
+  {% if nebula_listen_write_buffer is defined %}
+  write_buffer: {{ nebula_listen_write_buffer }}
+  {% endif %}
+
+punchy:
+  punch: {{ nebula_punchy_punch }}
+  {% if nebula_punchy_respond is defined %}
+  respond: {{ nebula_punchy_respond }}
+  {% endif %}
+  {% if nebula_punchy_delay is defined %}
+  delay: {{ nebula_punchy_delay }}
+  {% endif %}
+
+{% if nebula_cipher is defined %}
+cipher: {{ nebula_cipher }}
+{% endif %}
+
+tun:
+  disabled: {{ nebula_tun_disabled }}
+  dev: {{ nebula_tun_dev }}
+  drop_local_broadcast: {{ nebula_tun_drop_local_broadcast }}
+  drop_multicast: {{ nebula_tun_drop_multicast }}
+  tx_queue: {{ nebula_tun_tx_queue }}
+  mtu: {{ nebula_tun_mtu }}
+  routes:
+  unsafe_routes:
+
+logging:
+  level: {{ nebula_logging_level }}
+  format: {{ nebula_logging_format }}
+  disable_timestamp: {{ nebula_logging_disable_timestamp }}
+
+# Nebula security group configuration
+firewall:
+  conntrack:
+    tcp_timeout: {{ nebula_firewall_conntrack_tcp_timeout }}
+    udp_timeout: {{ nebula_firewall_conntrack_udp_timeout }}
+    default_timeout: {{ nebula_firewall_conntrack_default_timeout }}
+    max_connections: {{ nebula_firewall_conntrack_max_connections }}
+  outbound:
+    {{ nebula_firewall_outbound | to_nice_yaml(indent=2) | indent(width=4) }}
+  inbound:
+    {{ nebula_firewall_inbound | to_nice_yaml(indent=2) | indent(width=4) }}

@@ -1,0 +1,90 @@
+---
+- name: Wait for CA cert to be generated on CA
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.wait_for:
+    path: "{{ nebula_config_dir }}/ca.key"
+    timeout: "{{ nebula_ca_wait_timeout_secs }}"
+
+- name: Create cert for member
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.command:
+    cmd: >-
+      {{ nebula_bin_dir }}/nebula-cert sign
+      -name "{{ nebula_name }}"
+      -ip "{{ nebula_ip }}"
+      -groups "{{ nebula_groups | join(',') }}"
+      -ca-key "{{ nebula_config_dir }}/ca.key"
+      -ca-crt "{{ nebula_config_dir }}/ca.crt"
+      -out-key "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+      -out-crt "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
+    creates: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+
+- name: Slurp CA cert
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.slurp:
+    src: "{{ nebula_config_dir }}/ca.crt"
+  register: ca_crt_slurped
+
+- name: Slurp client cert
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.slurp:
+    src: "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
+  register: client_crt_slurped
+
+- name: Slurp client key
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.slurp:
+    src: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+  register: client_key_slurped
+
+- name: Save CA cert
+  no_log: true
+  ansible.builtin.copy:
+    dest: "{{ nebula_config_dir }}/ca.crt"
+    content: "{{ ca_crt_slurped.content | b64decode }}"
+    mode: "0600"
+
+- name: Save client cert
+  no_log: true
+  ansible.builtin.copy:
+    dest: "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
+    content: "{{ client_crt_slurped.content | b64decode }}"
+    mode: "0600"
+
+- name: Save client key
+  no_log: true
+  ansible.builtin.copy:
+    dest: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+    content: "{{ client_key_slurped.content | b64decode }}"
+    mode: "0600"
+
+- name: Create nebula config directory
+  ansible.builtin.file:
+    path: "{{ nebula_config_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Wait for nebula_routable_ip to be set on all lighthouses
+  ansible.builtin.wait_for:
+    timeout: 10
+  when: hostvars[item]['nebula_am_lighthouse'] | default(false)
+  until: hostvars[item]['nebula_routable_ip'] is defined
+  retries: 12
+  delay: 10
+  loop: "{{ ansible_play_hosts_all }}"
+  loop_control:
+    loop_var: item
+
+- name: Template nebula config
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ nebula_config_dir }}/config.yml"
+    mode: "0644"
+  notify: restart nebula service
+
+- name: Template nebula systemd unit
+  ansible.builtin.template:
+    src: nebula.service.j2
+    dest: "/etc/systemd/system/nebula.service"
+    mode: "0644"
+  notify: restart nebula service

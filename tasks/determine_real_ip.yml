@@ -1,0 +1,7 @@
+---
+- name: Get the public IP of the lighthose
+  community.general.ipify_facts:
+
+- name: Set nebula_routable_ip fact
+  ansible.builtin.set_fact:
+    nebula_routable_ip: "{{ ipify_public_ip }}"

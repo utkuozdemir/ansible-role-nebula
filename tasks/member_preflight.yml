@@ -1,0 +1,22 @@
+---
+- name: Assert that init system is systemd
+  ansible.builtin.assert:
+    that: ansible_service_mgr == 'systemd'
+    fail_msg: "Init system is not systemd but {{ ansible_service_mgr }}"
+    success_msg: "Init system is systemd"
+
+- name: Assert that nebula_ca_host is defined
+  ansible.builtin.assert:
+    that: nebula_ca_host is defined
+    fail_msg: >-
+      Host is a member but 'nebula_ca_host' is not defined. 
+      Make sure that you have exactly 1 member with `nebula_is_ca: true` in the play.
+      Alternatively, define `nebula_ca_host` variable in your inventory to 
+      have the ansible inventory name of the CA host
+    success_msg: "Host is a member and variable 'nebula_ca_host' is defined"
+
+- name: Assert that nebula_ip is defined
+  ansible.builtin.assert:
+    that: nebula_ip
+    fail_msg: "Host is a member but variable 'nebula_ip' is not defined"
+    success_msg: "Host is a member and variable 'nebula_ip' is defined"

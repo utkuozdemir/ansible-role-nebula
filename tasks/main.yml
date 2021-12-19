@@ -1,0 +1,17 @@
+---
+- import_tasks: determine_ca.yml
+  when: nebula_ca_host is not defined
+
+- import_tasks: determine_real_ip.yml
+  when: nebula_am_lighthouse and (nebula_routable_ip is not defined)
+
+- import_tasks: member_preflight.yml
+  when: nebula_is_member
+
+- import_tasks: download.yml
+
+- import_tasks: ca.yml
+  when: nebula_is_ca
+
+- import_tasks: member.yml
+  when: nebula_is_member

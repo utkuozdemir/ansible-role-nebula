@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "nebula"
+version = "0.1.0"
+description = "Nebula Mesh setup"
+authors = ["Utku Ozdemir <uoz@protonmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "==3.10"
+
+# https://pypi.org/project/ansible/#history
+ansible = "==5.0.1"
+# https://pypi.org/project/ansible-lint/#history
+ansible-lint = "==5.3.1"
+# https://pypi.org/project/yamllint/#history
+yamllint = "==1.26.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

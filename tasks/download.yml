@@ -1,0 +1,18 @@
+---
+- name: Download nebula
+  ansible.builtin.get_url:
+    url: "{{ nebula_download_url }}"
+    dest: "{{ nebula_download_dir }}/nebula.tar.gz"
+    checksum: "{{ nebula_download_checksum | default(omit) }}"
+
+- name: Unarchive nebula
+  ansible.builtin.unarchive:
+    src: "{{ nebula_download_dir }}/nebula.tar.gz"
+    dest: "{{ nebula_bin_dir }}"
+    remote_src: true
+
+- name: Create nebula config directory
+  ansible.builtin.file:
+    path: "{{ nebula_config_dir }}"
+    state: directory
+    mode: "0755"

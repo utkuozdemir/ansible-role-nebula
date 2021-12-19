@@ -1,0 +1,70 @@
+---
+nebula_version: v1.5.2
+nebula_arch: amd64
+nebula_download_url: https://github.com/slackhq/nebula/releases/download/{{ nebula_version }}/nebula-linux-{{ nebula_arch }}.tar.gz
+#nebula_download_checksum: null
+
+nebula_download_dir: /opt
+nebula_bin_dir: /usr/local/bin
+nebula_config_dir: /etc/nebula
+
+nebula_is_ca: false
+nebula_is_member: true
+#nebula_ca_host: null
+
+nebula_ca_wait_timeout_secs: 120
+
+nebula_ca_name: Nebula CA Org
+
+# Use 20 years instead of default of 8760h (1 year)
+nebula_ca_duration: 175200h
+
+nebula_service_name: nebula
+
+#nebula_routable_ip: null
+#nebula_ip: null
+nebula_name: "{{ ansible_hostname }}"
+nebula_groups: []
+
+#nebula_pki_disconnect_invalid: false
+
+nebula_am_lighthouse: false
+nebula_lighthouse_interval: 60
+
+nebula_listen_host: 0.0.0.0
+nebula_listen_port: 4242
+#nebula_listen_batch: 64
+#nebula_listen_read_buffer: 10485760
+#nebula_listen_write_buffer: 10485760
+
+nebula_punchy_punch: true
+#nebula_punchy_respond: true
+#nebula_punchy_delay: 1s
+
+#nebula_cipher: aes
+
+nebula_tun_disabled: false
+nebula_tun_dev: nebula1
+nebula_tun_drop_local_broadcast: false
+nebula_tun_drop_multicast: false
+nebula_tun_tx_queue: 500
+nebula_tun_mtu: 1300
+
+nebula_logging_level: info
+nebula_logging_format: text
+nebula_logging_disable_timestamp: false
+
+nebula_firewall_conntrack_tcp_timeout: 12m
+nebula_firewall_conntrack_udp_timeout: 3m
+nebula_firewall_conntrack_default_timeout: 10m
+nebula_firewall_conntrack_max_connections: 100000
+
+nebula_firewall_outbound:
+  - port: any
+    proto: any
+    host: any
+
+nebula_firewall_inbound:
+  - port: any
+    proto: any
+    host: any

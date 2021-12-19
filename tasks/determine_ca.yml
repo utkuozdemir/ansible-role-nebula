@@ -1,0 +1,20 @@
+---
+- name: Set initial nebula_ca_hosts fact
+  ansible.builtin.set_fact:
+    nebula_ca_hosts: []
+
+- name: Find nebula_ca_hosts
+  ansible.builtin.set_fact:
+    nebula_ca_hosts: "{{ nebula_ca_hosts + [item] }}"
+  when: hostvars[item]['nebula_is_ca'] | default(false)
+  loop: "{{ ansible_play_hosts_all }}"
+
+- name: Assert that there is a single member in nebula_ca_hosts
+  ansible.builtin.assert:
+    that: nebula_ca_hosts | length == 1
+    fail_msg: "Found {{ nebula_ca_hosts | length }} nebula_ca_hosts: [{{ nebula_ca_hosts | join(', ') }}]"
+    success_msg: "Found single nebula_ca_host in play hosts"
+
+- name: Set nebula_ca_host fact
+  ansible.builtin.set_fact:
+    nebula_ca_host: "{{ nebula_ca_hosts[0] }}"

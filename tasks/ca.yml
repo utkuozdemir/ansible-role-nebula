@@ -1,0 +1,10 @@
+---
+- name: Create nebula CA cert
+  ansible.builtin.command:
+    cmd: >-
+      {{ nebula_bin_dir }}/nebula-cert ca
+      -name "{{ nebula_ca_name }}"
+      -duration {{ nebula_ca_duration }}
+      -out-key "{{ nebula_config_dir }}/ca.key"
+      -out-crt "{{ nebula_config_dir }}/ca.crt"
+    creates: "{{ nebula_config_dir }}/ca.key"
