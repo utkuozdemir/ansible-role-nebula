@@ -68,7 +68,7 @@ jobs:
         run: terraform init && terraform apply -auto-approve
 
       - name: Run tests
-        working-directory: tests/terraform/
+        working-directory: tests/
         run: poetry run ansible-playbook -i inventory test.yml
 
       - name: Delete terraform resources
