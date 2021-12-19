@@ -4,4 +4,4 @@
   strategy: free
   become: true
   roles:
-    - role: nebula
+    - role: ansible-role-nebula
