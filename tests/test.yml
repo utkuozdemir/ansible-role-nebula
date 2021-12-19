@@ -7,7 +7,7 @@
       ansible.builtin.assert:
         that: (groups['nebula'] | default([])) | length > 0
         fail_msg: No hosts found
-        success_msg: There is at least 1 host in nebula group
+        success_msg: "There is {{ (groups['nebula'] | default([])) | length }} host(s) in nebula group"
 
 - name: Setup Nebula
   hosts: nebula
