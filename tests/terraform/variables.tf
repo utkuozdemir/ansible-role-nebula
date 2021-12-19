@@ -20,7 +20,7 @@ variable "ssh_keys" {
 
 variable "name_prefix" {
   type    = string
-  default = "do"
+  default = "ansible-role-nebula-"
 }
 
 variable "num_droplets" {
