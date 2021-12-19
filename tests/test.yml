@@ -12,6 +12,10 @@
   become: true
   tasks:
     - name: Ping all nebula hosts
-      ansible.builtin.command: "ping -W 3 -c 3 {{ hostvars[item]['nebula_ip'].split('/')[0] }}"
+      ansible.builtin.command: "ping -W 1 -c 3 {{ hostvars[item]['nebula_ip'].split('/')[0] }}"
       changed_when: false
+      register: ping_result
+      until: ping_result is succeeded
+      retries: 10
+      delay: 10
       loop: "{{ ansible_play_hosts_all }}"
