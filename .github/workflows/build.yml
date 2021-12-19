@@ -59,6 +59,10 @@ jobs:
       - name: Lint terraform sources
         run: terraform fmt -recursive --check
 
+      - name: Run tests in local
+        working-directory: tests/
+        run: poetry run ansible-playbook -i local test.yml
+
       - name: Prepare secrets
         run: |
           echo "${{ secrets.DO_TOKEN }}" > tests/terraform/.do-token.txt
@@ -70,7 +74,7 @@ jobs:
         working-directory: tests/terraform/
         run: terraform init && terraform apply -auto-approve
 
-      - name: Run tests
+      - name: Run tests in VMs
         working-directory: tests/
         run: poetry run ansible-playbook -i inventory test.yml
 
