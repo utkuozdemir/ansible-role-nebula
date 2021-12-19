@@ -5,3 +5,13 @@
   become: true
   roles:
     - role: ansible-role-nebula
+
+- name: Test Nebula
+  hosts: nebula
+  strategy: free
+  become: true
+  tasks:
+    - name: Ping all nebula hosts
+      ansible.builtin.command: "ping -W 3 -c 3 {{ hostvars[item]['nebula_ip'].split('/')[0] }}"
+      changed_when: false
+      loop: "{{ ansible_play_hosts_all }}"
