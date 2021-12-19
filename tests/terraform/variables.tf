@@ -15,7 +15,7 @@ variable "size" {
 
 variable "ssh_keys" {
   type    = list(number)
-  default = []
+  default = [32679303]
 }
 
 variable "name_prefix" {
@@ -30,7 +30,7 @@ variable "num_droplets" {
 
 variable "common_tags" {
   type    = list(string)
-  default = []
+  default = ["nebula"]
 }
 
 variable "droplet_tags" {
