@@ -9,9 +9,9 @@
   ansible.builtin.assert:
     that: nebula_ca_host is defined
     fail_msg: >-
-      Host is a member but 'nebula_ca_host' is not defined. 
+      Host is a member but 'nebula_ca_host' is not defined.
       Make sure that you have exactly 1 member with `nebula_is_ca: true` in the play.
-      Alternatively, define `nebula_ca_host` variable in your inventory to 
+      Alternatively, define `nebula_ca_host` variable in your inventory to
       have the ansible inventory name of the CA host
     success_msg: "Host is a member and variable 'nebula_ca_host' is defined"
 

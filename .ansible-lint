@@ -1,0 +1,10 @@
+---
+enable_list:
+  - fqcn-builtins
+  - no-same-owner
+  - yaml
+
+exclude_paths:
+  - ~/.deps/
+  - ~/.cache/
+  - ./.cache/

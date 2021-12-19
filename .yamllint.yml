@@ -1,0 +1,14 @@
+---
+extends: default
+
+rules:
+  braces:
+    forbid: non-empty
+  brackets:
+    forbid: non-empty
+  line-length:
+    max: 160
+  comments: disable
+  comments-indentation: disable
+  truthy:
+    check-keys: false

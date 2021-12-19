@@ -1,6 +1,6 @@
 ---
 - name: restart nebula service
-  systemd:
+  ansible.builtin.systemd:
     name: nebula
     daemon_reload: true
     state: restarted

@@ -1,3 +1,4 @@
+---
 name: Lint, build & test
 on:
   push:
@@ -44,3 +45,6 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Lint Ansible files
+        run: poetry run ansible-lint
