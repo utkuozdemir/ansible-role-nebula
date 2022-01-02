@@ -26,6 +26,17 @@ nebula_service_name: nebula
 nebula_name: "{{ ansible_hostname }}"
 nebula_groups: []
 
+nebula_additional_member_certs_download_dir: /tmp
+nebula_additional_member_certs: {}
+  #additional-client-1:
+  #  ip: 172.20.0.51/24
+  #  groups:
+  #    - group-1
+  #    - group-2
+  #additional-client-2:
+  #  ip: 172.20.0.52/24
+  #  groups: []
+
 #nebula_pki_disconnect_invalid: false
 
 nebula_am_lighthouse: false

@@ -8,3 +8,34 @@
       -out-key "{{ nebula_config_dir }}/ca.key"
       -out-crt "{{ nebula_config_dir }}/ca.crt"
     creates: "{{ nebula_config_dir }}/ca.key"
+
+- name: Create nebula certs for additional members
+  ansible.builtin.command:
+    cmd: >-
+      {{ nebula_bin_dir }}/nebula-cert sign
+      -name "{{ item.key }}"
+      -ip "{{ item.value.ip | mandatory }}"
+      -groups "{{ (item.value.groups | default([])) | join(',') }}"
+      -ca-key "{{ nebula_config_dir }}/ca.key"
+      -ca-crt "{{ nebula_config_dir }}/ca.crt"
+      -out-key "{{ nebula_config_dir }}/{{ item.key }}.key"
+      -out-crt "{{ nebula_config_dir }}/{{ item.key }}.crt"
+    creates: "{{ nebula_config_dir }}/{{ item.key }}.key"
+  loop: "{{ nebula_additional_member_certs | dict2items }}"
+
+- name: Archive additional member certs
+  community.general.archive:
+    path:
+      - "{{ nebula_config_dir }}/ca.crt"
+      - "{{ nebula_config_dir }}/{{ item.key }}.key"
+      - "{{ nebula_config_dir }}/{{ item.key }}.crt"
+    dest: "{{ nebula_config_dir }}/{{ item.key }}.tar.gz"
+    mode: "0600"
+  loop: "{{ nebula_additional_member_certs | dict2items }}"
+
+- name: Download additional member certs
+  ansible.builtin.fetch:
+    src: "{{ nebula_config_dir }}/{{ item.key }}.tar.gz"
+    dest: "/{{ nebula_additional_member_certs_download_dir }}/{{ item.key }}.tar.gz"
+    flat: true
+  loop: "{{ nebula_additional_member_certs | dict2items }}"
