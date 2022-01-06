@@ -1,14 +1,19 @@
 ---
+- name: Set CA host facts
+  ansible.builtin.set_fact:
+    ca_config_dir: "{{ hostvars[nebula_ca_host]['nebula_config_dir'] | default('/etc/nebula') }}"
+    ca_bin_dir: "{{ hostvars[nebula_ca_host]['nebula_bin_dir'] | default('/usr/local/bin') }}"
+
 - name: Wait for CA cert to be generated on CA
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.wait_for:
-    path: "{{ nebula_config_dir }}/ca.key"
+    path: "{{ ca_config_dir }}/ca.key"
     timeout: "{{ nebula_ca_wait_timeout_secs }}"
 
 - name: Write public key of member
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.copy:
-    dest: "{{ nebula_config_dir }}/{{ nebula_name }}.pub"
+    dest: "{{ ca_config_dir }}/{{ nebula_name }}.pub"
     content: "{{ nebula_cert_public_key }}"
     mode: "0600"
   when: nebula_cert_public_key is defined
@@ -17,36 +22,36 @@
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.command:
     cmd: >-
-      {{ nebula_bin_dir }}/nebula-cert sign
+      {{ ca_bin_dir }}/nebula-cert sign
       -name "{{ nebula_name }}"
       -ip "{{ nebula_ip }}"
       -groups "{{ nebula_groups | join(',') }}"
-      -ca-key "{{ nebula_config_dir }}/ca.key"
-      -ca-crt "{{ nebula_config_dir }}/ca.crt"
+      -ca-key "{{ ca_config_dir }}/ca.key"
+      -ca-crt "{{ ca_config_dir }}/ca.crt"
       {% if nebula_cert_public_key is defined %}
-      -in-pub "{{ nebula_config_dir }}/{{ nebula_name }}.pub"
+      -in-pub "{{ ca_config_dir }}/{{ nebula_name }}.pub"
       {% else %}
-      -out-key "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+      -out-key "{{ ca_config_dir }}/{{ nebula_name }}.key"
       {% endif %}
-      -out-crt "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
-    creates: "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
+      -out-crt "{{ ca_config_dir }}/{{ nebula_name }}.crt"
+    creates: "{{ ca_config_dir }}/{{ nebula_name }}.crt"
 
 - name: Slurp CA cert
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.slurp:
-    src: "{{ nebula_config_dir }}/ca.crt"
+    src: "{{ ca_config_dir }}/ca.crt"
   register: ca_crt_slurped
 
 - name: Slurp client cert
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.slurp:
-    src: "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
+    src: "{{ ca_config_dir }}/{{ nebula_name }}.crt"
   register: client_crt_slurped
 
 - name: Slurp client key
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.slurp:
-    src: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+    src: "{{ ca_config_dir }}/{{ nebula_name }}.key"
   register: client_key_slurped
   when: nebula_cert_public_key is not defined
 
