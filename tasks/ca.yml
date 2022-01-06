@@ -55,7 +55,7 @@
       - "{{ nebula_config_dir }}/ca.crt"
       - "{{ nebula_config_dir }}/{{ item.key }}.key"
       - "{{ nebula_config_dir }}/{{ item.key }}.crt"
-    dest: "{{ nebula_config_dir }}/{{ item.key }}.tar.gz"
+    dest: "{{ nebula_config_dir }}/{{ item.key }}.zip"
     mode: "0600"
   when: item.value['public_key'] is not defined
   loop: "{{ nebula_additional_member_certs | dict2items }}"
