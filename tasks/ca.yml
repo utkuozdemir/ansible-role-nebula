@@ -9,6 +9,15 @@
       -out-crt "{{ nebula_config_dir }}/ca.crt"
     creates: "{{ nebula_config_dir }}/ca.key"
 
+- name: Write public keys of additional members
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.copy:
+    dest: "{{ nebula_config_dir }}/{{ item.key }}.pub"
+    content: "{{ item.value['public_key'] }}"
+    mode: "0600"
+  when: item.value['public_key'] is defined
+  loop: "{{ nebula_additional_member_certs | dict2items }}"
+
 - name: Create nebula certs for additional members
   ansible.builtin.command:
     cmd: >-
@@ -18,12 +27,26 @@
       -groups "{{ (item.value.groups | default([])) | join(',') }}"
       -ca-key "{{ nebula_config_dir }}/ca.key"
       -ca-crt "{{ nebula_config_dir }}/ca.crt"
+      {% if item.value['public_key'] is defined %}
+      -in-pub "{{ nebula_config_dir }}/{{ item.key }}.pub"
+      {% else %}
       -out-key "{{ nebula_config_dir }}/{{ item.key }}.key"
+      {% endif %}
       -out-crt "{{ nebula_config_dir }}/{{ item.key }}.crt"
-    creates: "{{ nebula_config_dir }}/{{ item.key }}.key"
+    creates: "{{ nebula_config_dir }}/{{ item.key }}.crt"
   loop: "{{ nebula_additional_member_certs | dict2items }}"
 
-- name: Archive additional member certs
+- name: Archive additional member certs - without private key
+  community.general.archive:
+    path:
+      - "{{ nebula_config_dir }}/ca.crt"
+      - "{{ nebula_config_dir }}/{{ item.key }}.crt"
+    dest: "{{ nebula_config_dir }}/{{ item.key }}.tar.gz"
+    mode: "0600"
+  when: item.value['public_key'] is defined
+  loop: "{{ nebula_additional_member_certs | dict2items }}"
+
+- name: Archive additional member certs - with private key
   community.general.archive:
     path:
       - "{{ nebula_config_dir }}/ca.crt"
@@ -31,6 +54,7 @@
       - "{{ nebula_config_dir }}/{{ item.key }}.crt"
     dest: "{{ nebula_config_dir }}/{{ item.key }}.tar.gz"
     mode: "0600"
+  when: item.value['public_key'] is not defined
   loop: "{{ nebula_additional_member_certs | dict2items }}"
 
 - name: Download additional member certs

@@ -20,3 +20,11 @@
     that: nebula_ip
     fail_msg: "Host is a member but variable 'nebula_ip' is not defined"
     success_msg: "Host is a member and variable 'nebula_ip' is defined"
+
+- name: Assert that either both nebula_cert_private_key and nebula_cert_public_key are defined or none
+  ansible.builtin.assert:
+    that: >-
+      (nebula_cert_private_key is defined and nebula_cert_public_key is defined)
+      or
+      (nebula_cert_private_key is not defined and nebula_cert_public_key is not defined)
+    fail_msg: "Either both of nebula_cert_private_key and nebula_cert_public_key must be defined or none"

@@ -5,6 +5,14 @@
     path: "{{ nebula_config_dir }}/ca.key"
     timeout: "{{ nebula_ca_wait_timeout_secs }}"
 
+- name: Write public key of member
+  delegate_to: "{{ nebula_ca_host }}"
+  ansible.builtin.copy:
+    dest: "{{ nebula_config_dir }}/{{ nebula_name }}.pub"
+    content: "{{ nebula_cert_public_key }}"
+    mode: "0600"
+  when: nebula_cert_public_key is defined
+
 - name: Create cert for member
   delegate_to: "{{ nebula_ca_host }}"
   ansible.builtin.command:
@@ -15,9 +23,13 @@
       -groups "{{ nebula_groups | join(',') }}"
       -ca-key "{{ nebula_config_dir }}/ca.key"
       -ca-crt "{{ nebula_config_dir }}/ca.crt"
+      {% if nebula_cert_public_key is defined %}
+      -in-pub "{{ nebula_config_dir }}/{{ nebula_name }}.pub"
+      {% else %}
       -out-key "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+      {% endif %}
       -out-crt "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
-    creates: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+    creates: "{{ nebula_config_dir }}/{{ nebula_name }}.crt"
 
 - name: Slurp CA cert
   delegate_to: "{{ nebula_ca_host }}"
@@ -36,6 +48,7 @@
   ansible.builtin.slurp:
     src: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
   register: client_key_slurped
+  when: nebula_cert_public_key is not defined
 
 - name: Save CA cert
   no_log: true
@@ -51,12 +64,21 @@
     content: "{{ client_crt_slurped.content | b64decode }}"
     mode: "0600"
 
-- name: Save client key
+- name: Save client key provided from the inventory
+  no_log: true
+  ansible.builtin.copy:
+    dest: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
+    content: "{{ nebula_cert_private_key }}"
+    mode: "0600"
+  when: nebula_cert_private_key is defined
+
+- name: Save client key generated on CA host
   no_log: true
   ansible.builtin.copy:
     dest: "{{ nebula_config_dir }}/{{ nebula_name }}.key"
     content: "{{ client_key_slurped.content | b64decode }}"
     mode: "0600"
+  when: nebula_cert_public_key is not defined
 
 - name: Create nebula config directory
   ansible.builtin.file:

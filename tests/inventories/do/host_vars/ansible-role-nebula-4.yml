@@ -1,3 +1,13 @@
 ---
 nebula_ip: 172.20.0.4/24
 nebula_am_lighthouse: true
+
+nebula_cert_private_key: |
+  -----BEGIN NEBULA X25519 PRIVATE KEY-----
+  aJH4X+9oP4VJTx4cueOcmIu8tFOn4OV9nr4h6nd1gE0=
+  -----END NEBULA X25519 PRIVATE KEY-----
+
+nebula_cert_public_key: |
+  -----BEGIN NEBULA X25519 PUBLIC KEY-----
+  iYH/ccc9aYK0I/ymBEBCjXC5B85X7fzxTVh8gkfssUo=
+  -----END NEBULA X25519 PUBLIC KEY-----

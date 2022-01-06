@@ -26,6 +26,16 @@ nebula_service_name: nebula
 nebula_name: "{{ ansible_hostname }}"
 nebula_groups: []
 
+#nebula_cert_private_key: |
+#  -----BEGIN NEBULA X25519 PRIVATE KEY-----
+#  aJH4X+9oP4VJ...EXAMPLE...9nr4h6nd1gE0=
+#  -----END NEBULA X25519 PRIVATE KEY-----
+
+#nebula_cert_public_key: |
+#  -----BEGIN NEBULA X25519 PUBLIC KEY-----
+#  iYH/ccc9a...EXAMPLE...h8gkfssUo=
+#  -----END NEBULA X25519 PUBLIC KEY-----
+
 nebula_additional_member_certs_download_dir: /tmp
 nebula_additional_member_certs: {}
   #additional-client-1:
@@ -36,6 +46,10 @@ nebula_additional_member_certs: {}
   #additional-client-2:
   #  ip: 172.20.0.52/24
   #  groups: []
+  #  public_key: |
+  #    -----BEGIN NEBULA X25519 PUBLIC KEY-----
+  #    iYH/ccc9a...EXAMPLE...h8gkfssUo=
+  #    -----END NEBULA X25519 PUBLIC KEY-----
 
 #nebula_pki_disconnect_invalid: false
 
