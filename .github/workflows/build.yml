@@ -64,13 +64,15 @@ jobs:
 
       - name: Run tests in local
         working-directory: tests/
+        env:
+          ANSIBLE_FORCE_COLOR: "True"
         run: poetry run ansible-playbook -i inventories/local test.yml
 
       - name: Re-run tests in local to check idempotency
         id: rerun_test
         working-directory: tests/
         env:
-          ANSIBLE_NOCOLOR: "true"
+          ANSIBLE_NOCOLOR: "True"
         run: |
           poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
           echo "-------------------------------------"
