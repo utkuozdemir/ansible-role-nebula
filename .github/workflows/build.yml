@@ -75,10 +75,8 @@ jobs:
           ANSIBLE_NOCOLOR: "True"
         run: |
           poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
-          echo "-------------------------------------"
-          cat output.txt
-          echo "-------------------------------------"
-          ./scripts/check-idempotency.sh output.txt
+          grep -w "changed=[1-9]" output.txt && echo "Idempotency check failed!" && exit 1
+          echo "Idempotency check passed..."
 
       - name: Prepare secrets
         run: |
