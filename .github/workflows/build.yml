@@ -72,6 +72,7 @@ jobs:
         id: rerun_test
         working-directory: tests/
         env:
+          # disable color so grep will give correct results (no color control sequences)
           ANSIBLE_NOCOLOR: "True"
         run: |
           poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
