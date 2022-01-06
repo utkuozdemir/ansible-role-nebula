@@ -1,0 +1,7 @@
+---
+nebula_ip: 172.20.0.2/24
+nebula_listen_port: 4243
+nebula_config_dir: /etc/nebula2
+nebula_bin_dir: /opt
+nebula_service_name: nebula2
+nebula_tun_dev: nebula2
