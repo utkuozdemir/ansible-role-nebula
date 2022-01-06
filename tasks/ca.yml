@@ -38,10 +38,13 @@
 
 - name: Archive additional member certs - without private key
   community.general.archive:
+    # use .zip and not .tar.gz format to achieve idempotency:
+    # https://github.com/ansible-collections/community.general/issues/1994
+    format: zip
     path:
       - "{{ nebula_config_dir }}/ca.crt"
       - "{{ nebula_config_dir }}/{{ item.key }}.crt"
-    dest: "{{ nebula_config_dir }}/{{ item.key }}.tar.gz"
+    dest: "{{ nebula_config_dir }}/{{ item.key }}.zip"
     mode: "0600"
   when: item.value['public_key'] is defined
   loop: "{{ nebula_additional_member_certs | dict2items }}"
