@@ -37,6 +37,9 @@ nebula_groups: []
 #  -----END NEBULA X25519 PUBLIC KEY-----
 
 nebula_additional_member_certs_download_dir: /tmp
+
+# If a public key is provided on an additional member,
+# it will be signed and no private key will be generated for that member
 nebula_additional_member_certs: {}
   #additional-client-1:
   #  ip: 172.20.0.51/24
