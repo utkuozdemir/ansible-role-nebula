@@ -71,8 +71,7 @@ jobs:
         working-directory: tests/
         run: |
           poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
-          grep -w "changed=[1-9]" output.txt && echo "Idempotency check failed" && exit 1
-          echo "Idempotency check passed"
+          ./scripts/check-idempotency.sh output.txt
 
       - name: Prepare secrets
         run: |
