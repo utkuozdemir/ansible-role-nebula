@@ -63,6 +63,6 @@
 - name: Download additional member certs
   ansible.builtin.fetch:
     src: "{{ nebula_config_dir }}/{{ item.key }}.zip"
-    dest: "/{{ nebula_additional_member_certs_download_dir }}/{{ item.key }}.zip"
+    dest: "{{ nebula_additional_member_certs_download_dir }}/{{ item.key }}.zip"
     flat: true
   loop: "{{ nebula_additional_member_certs | dict2items }}"
