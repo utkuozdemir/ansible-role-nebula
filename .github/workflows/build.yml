@@ -69,6 +69,8 @@ jobs:
       - name: Re-run tests in local to check idempotency
         id: rerun_test
         working-directory: tests/
+        env:
+          ANSIBLE_NOCOLOR: "true"
         run: |
           poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
           echo "-------------------------------------"
