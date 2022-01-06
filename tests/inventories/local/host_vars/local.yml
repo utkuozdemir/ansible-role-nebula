@@ -1,0 +1,23 @@
+---
+nebula_ip: 172.20.0.1/24
+nebula_is_ca: true
+
+nebula_additional_member_certs:
+  additional-client-1:
+    ip: 172.20.0.51/24
+    groups:
+      - group-1
+      - group-2
+  additional-client-2:
+    ip: 172.20.0.52/24
+    groups: []
+  additional-client-3:
+    ip: 172.20.0.53/24
+    public_key: |
+      -----BEGIN NEBULA X25519 PUBLIC KEY-----
+      YhJpsZYB81uBCXc+eNPp6pdsrUFNOeycU9XvMPK0lyU=
+      -----END NEBULA X25519 PUBLIC KEY-----
+    groups:
+      - aaa
+      - bbb
+      - ccc

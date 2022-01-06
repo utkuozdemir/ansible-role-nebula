@@ -1,4 +1,4 @@
-local ansible_connection=local nebula_ip=172.20.0.1/24 nebula_is_ca=true
+local ansible_connection=local
 
 [nebula]
 local
