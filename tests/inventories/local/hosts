@@ -1,6 +1,4 @@
 local   ansible_connection=local
-local-2 ansible_connection=local
 
 [nebula]
 local
-local-2
