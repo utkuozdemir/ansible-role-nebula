@@ -1,8 +1,8 @@
 ---
 - name: Assert that init system is systemd
   ansible.builtin.assert:
-    that: ansible_service_mgr == 'systemd'
-    fail_msg: "Init system is not systemd but {{ ansible_service_mgr }}"
+    that: ansible_facts.service_mgr == 'systemd'
+    fail_msg: "Init system is not systemd but {{ ansible_facts.service_mgr }}"
     success_msg: "Init system is systemd"
 
 - name: Assert that nebula_ca_host is defined

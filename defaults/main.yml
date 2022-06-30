@@ -24,7 +24,7 @@ nebula_service_name: nebula
 
 #nebula_routable_ip: null
 #nebula_ip: null
-nebula_name: "{{ ansible_hostname }}"
+nebula_name: "{{ ansible_facts.hostname }}"
 nebula_groups: []
 
 #nebula_cert_private_key: |
