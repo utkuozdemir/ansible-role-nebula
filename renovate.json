@@ -1,0 +1,32 @@
+{
+  "extends": [
+    "config:base",
+    ":automergeBranch",
+    ":automergeMinor",
+    ":automergeDigest",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "packageRules": [
+    {
+      "extends": [
+        ":automergeMajor"
+      ],
+      "matchPaths": [
+        ".github/workflows/**"
+      ],
+      "groupName": "github actions"
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        ".*"
+      ],
+      "matchStrings": [
+        "# renovate: depName=(?<depName>[^\\s]+)( datasource=(?<datasource>[^\\s]+))?( registryUrl=(?<registryUrl>\\S+))?\\n[^\\n]*?(?<currentValue>v?\\d+\\.\\d+\\.\\d+(-[\\S]+)?)"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-tags{{/if}}",
+      "versioningTemplate": "semver"
+    }
+  ]
+}
