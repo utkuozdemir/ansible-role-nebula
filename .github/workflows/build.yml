@@ -93,6 +93,8 @@ jobs:
 
       - name: Run tests in VMs
         working-directory: tests/
+        env:
+          ANSIBLE_FORCE_COLOR: "True"
         run: poetry run ansible-playbook -i inventories/do test.yml
 
       - name: Create a release
