@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     digitalocean = {
-      source  = "digitalocean/digitalocean"
+      source = "digitalocean/digitalocean"
       # renovate: depName=digitalocean/terraform-provider-digitalocean
       version = "= 2.21.0"
     }
