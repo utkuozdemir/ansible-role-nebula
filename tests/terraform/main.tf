@@ -24,6 +24,17 @@ resource "random_id" "id" {
   byte_length = 2
 }
 
+resource "google_compute_firewall" "allow_nebula" {
+  name    = "${var.identifier}-allow-nebula"
+  network = data.google_compute_network.default.name
+  allow {
+    protocol = "udp"
+    ports    = ["4242"]
+  }
+  target_tags   = var.common_tags
+  source_ranges = ["0.0.0.0/0"]
+}
+
 resource "google_compute_firewall" "allow_ssh" {
   name    = "${var.identifier}-allow-ssh"
   network = data.google_compute_network.default.name
