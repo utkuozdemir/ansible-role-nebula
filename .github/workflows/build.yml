@@ -23,6 +23,9 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  GOOGLE_APPLICATION_CREDENTIALS: /tmp/.gcp-serviceaccount.json
+
 jobs:
   build:
     name: Build
@@ -82,9 +85,11 @@ jobs:
 
       - name: Prepare secrets
         run: |
-          echo "${{ secrets.DO_TOKEN }}" > tests/terraform/.do-token.txt
+          # use single quotes here because the secret content is JSON
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $GOOGLE_APPLICATION_CREDENTIALS
+
           mkdir -p ~/.ssh/
-          echo "${{ secrets.DO_SSH_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
       - name: Create terraform resources for test
@@ -95,7 +100,7 @@ jobs:
         working-directory: tests/
         env:
           ANSIBLE_FORCE_COLOR: "True"
-        run: poetry run ansible-playbook -i inventories/do test.yml
+        run: poetry run ansible-playbook -i inventories/cloud test.yml
 
       - name: Create a release
         uses: softprops/action-gh-release@v0.1.14
@@ -111,5 +116,5 @@ jobs:
       - name: Delete secrets
         if: ${{ always() }}
         run: |
-          rm -rf tests/terraform/.do-token.txt
+          rm -rf $GOOGLE_APPLICATION_CREDENTIALS
           rm -rf ~/.ssh/id_ed25519

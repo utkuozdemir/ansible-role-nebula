@@ -2,6 +2,7 @@
 nebula_ip: 172.20.0.4/24
 nebula_am_lighthouse: true
 
+# NOTE: Never do this anywhere other than tests!
 nebula_cert_private_key: |
   -----BEGIN NEBULA X25519 PRIVATE KEY-----
   aJH4X+9oP4VJTx4cueOcmIu8tFOn4OV9nr4h6nd1gE0=
