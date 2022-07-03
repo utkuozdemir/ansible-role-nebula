@@ -1,29 +1,29 @@
-variable "region" {
-  type    = string
-  default = "fra1"
-}
-
 variable "image" {
   type    = string
-  default = "ubuntu-20-04-x64"
+  default = "ubuntu-os-cloud/ubuntu-2204-lts"
 }
 
-variable "size" {
+variable "machine_type" {
   type    = string
-  default = "s-1vcpu-1gb"
+  default = "e2-micro"
 }
 
-variable "ssh_keys" {
-  type    = list(number)
-  default = [32701494]
-}
-
-variable "name_prefix" {
+variable "vm_user" {
   type    = string
-  default = "ansible-role-nebula-"
+  default = "ansible"
 }
 
-variable "num_droplets" {
+variable "vm_user_ssh_public_key" {
+  type    = string
+  default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMrmzi4x1ueVITQXq+Ro4D08BTqe/WYvK4Dw99HMTl/"
+}
+
+variable "identifier" {
+  type    = string
+  default = "ansible-role-nebula"
+}
+
+variable "num_vms" {
   type    = number
   default = 5
 }
@@ -33,8 +33,7 @@ variable "common_tags" {
   default = ["nebula"]
 }
 
-variable "droplet_tags" {
-  type = map(list(string))
-  //noinspection TFIncorrectVariableType
+variable "vm_tags" {
+  type    = map(list(string))
   default = {}
 }
