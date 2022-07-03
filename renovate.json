@@ -1,19 +1,10 @@
 {
   "extends": [
     "config:base",
+    "group:all",
     ":automergeBranch",
-    ":automergeMajor",
-    ":automergeMinor",
-    ":automergeDigest",
+    ":automergeAll",
     ":semanticCommitTypeAll(chore)"
-  ],
-  "packageRules": [
-    {
-      "matchPaths": [
-        "./**"
-      ],
-      "groupName": "dependencies"
-    }
   ],
   "regexManagers": [
     {
