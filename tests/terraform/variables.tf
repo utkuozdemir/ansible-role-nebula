@@ -5,7 +5,7 @@ variable "image" {
 
 variable "machine_type" {
   type    = string
-  default = "e2-micro"
+  default = "e2-medium"
 }
 
 variable "vm_user" {
