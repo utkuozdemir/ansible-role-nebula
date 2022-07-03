@@ -20,8 +20,7 @@ on:
       - ".gitignore"
 
 concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: build
 
 env:
   GOOGLE_APPLICATION_CREDENTIALS: /tmp/.gcp-serviceaccount.json
