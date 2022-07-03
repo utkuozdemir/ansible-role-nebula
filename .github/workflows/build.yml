@@ -34,28 +34,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2.4.0
 
-#      - name: Setup Python
-#        uses: actions/setup-python@v2.3.1
-#        with:
-#          python-version: "3.10"
-#
-#      - name: Install Poetry
-#        uses: snok/install-poetry@v1.3.0
-#        with:
-#          virtualenvs-create: true
-#          virtualenvs-in-project: true
+      - name: Setup Python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: "3.10"
 
-#      - name: Load cached Poetry virtual env
-#        uses: actions/cache@v2.1.6
-#        with:
-#          path: .venv
-#          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.3.0
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
-#      - name: Install poetry dependencies
-#        run: poetry install
+      - name: Load cached Poetry virtual env
+        uses: actions/cache@v2.1.6
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
-#      - name: Lint Ansible sources
-#        run: poetry run ansible-lint
+      - name: Install poetry dependencies
+        run: poetry install
+
+      - name: Lint Ansible sources
+        run: poetry run ansible-lint
 
       - name: Install terraform
         uses: hashicorp/setup-terraform@v2.0.0
@@ -63,28 +63,29 @@ jobs:
           # renovate: depName=hashicorp/terraform
           terraform_version: 1.2.4
 
-#      - name: Lint terraform sources
-#        run: terraform fmt -recursive --check
-#
-#      - name: Run tests in local
-#        working-directory: tests/
-#        env:
-#          ANSIBLE_FORCE_COLOR: "True"
-#        run: poetry run ansible-playbook -i inventories/local test.yml
-#
-#      - name: Re-run tests in local to check idempotency
-#        id: rerun_test
-#        working-directory: tests/
-#        env:
-#          # disable color so grep will give correct results (no color control sequences)
-#          ANSIBLE_NOCOLOR: "True"
-#        run: |
-#          poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
-#          grep -w "changed=[1-9]" output.txt && echo "Idempotency check failed!" && exit 1
-#          echo "Idempotency check passed..."
+      - name: Lint terraform sources
+        run: terraform fmt -recursive --check
+
+      - name: Run tests in local
+        working-directory: tests/
+        env:
+          ANSIBLE_FORCE_COLOR: "True"
+        run: poetry run ansible-playbook -i inventories/local test.yml
+
+      - name: Re-run tests in local to check idempotency
+        id: rerun_test
+        working-directory: tests/
+        env:
+          # disable color so grep will give correct results (no color control sequences)
+          ANSIBLE_NOCOLOR: "True"
+        run: |
+          poetry run ansible-playbook -i inventories/local test.yml |& tee output.txt
+          grep -w "changed=[1-9]" output.txt && echo "Idempotency check failed!" && exit 1
+          echo "Idempotency check passed..."
 
       - name: Prepare secrets
         run: |
+          # use single quotes here because the secret content is JSON
           echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $GOOGLE_APPLICATION_CREDENTIALS
 
           mkdir -p ~/.ssh/
