@@ -4,4 +4,4 @@
 
 - name: Set nebula_routable_ip fact
   ansible.builtin.set_fact:
-    nebula_routable_ip: "{{ ipify_public_ip }}"
+    nebula_routable_ip: "{{ ansible_facts.ipify_public_ip }}"
