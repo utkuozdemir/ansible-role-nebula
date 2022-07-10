@@ -83,6 +83,7 @@ jobs:
           echo "Idempotency check passed..."
 
       - name: Prepare secrets
+        if: "!github.event.pull_request.head.repo.fork"
         run: |
           # use single quotes here because the secret content is JSON
           echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $GOOGLE_APPLICATION_CREDENTIALS
@@ -92,10 +93,12 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
 
       - name: Create terraform resources for test
+        if: "!github.event.pull_request.head.repo.fork"
         working-directory: tests/terraform/
         run: terraform init && terraform apply -auto-approve
 
       - name: Run tests in VMs
+        if: "!github.event.pull_request.head.repo.fork"
         working-directory: tests/
         env:
           ANSIBLE_FORCE_COLOR: "True"
@@ -109,11 +112,17 @@ jobs:
 
       - name: Delete terraform resources
         working-directory: tests/terraform/
-        if: ${{ always() }}
-        run: terraform destroy -auto-approve
+        if: always()
+        run: |
+          IS_FORK=${{ github.event.pull_request.head.repo.fork }}
+          if [ ${IS_FORK,,} == false ]; then
+            terraform destroy -auto-approve
+          else
+            echo "Skipping terraform destroy because this is a fork"
+          fi
 
       - name: Delete secrets
-        if: ${{ always() }}
+        if: always()
         run: |
           rm -rf $GOOGLE_APPLICATION_CREDENTIALS
           rm -rf ~/.ssh/id_ed25519
