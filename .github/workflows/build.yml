@@ -45,7 +45,7 @@ jobs:
           virtualenvs-in-project: true
 
       - name: Load cached Poetry virtual env
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@v3.0.5
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
@@ -60,7 +60,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.0
         with:
           # renovate: depName=hashicorp/terraform
-          terraform_version: 1.2.4
+          terraform_version: v1.2.5
 
       - name: Lint terraform sources
         run: terraform fmt -recursive --check
