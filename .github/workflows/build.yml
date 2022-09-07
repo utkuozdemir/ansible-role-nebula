@@ -60,7 +60,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.0
         with:
           # renovate: depName=hashicorp/terraform
-          terraform_version: v1.2.8
+          terraform_version: v1.2.9
 
       - name: Lint terraform sources
         run: terraform fmt -recursive --check
