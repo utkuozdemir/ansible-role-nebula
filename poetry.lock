@@ -403,7 +403,7 @@ bracex = ">=2.1.1"
 
 [[package]]
 name = "yamllint"
-version = "1.27.1"
+version = "1.28.0"
 description = "A linter for YAML files."
 category = "main"
 optional = false
@@ -417,7 +417,7 @@ setuptools = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "40b794b46789c2b38daf6286342f8305fb01854c7512b55900b8ff23f577cf71"
+content-hash = "636b30d1595a4e026fa4f907d9f01f6b291e4f0c4242f0d5991e17e487311df1"
 
 [metadata.files]
 ansible = [
@@ -757,5 +757,5 @@ wcmatch = [
     {file = "wcmatch-8.3.tar.gz", hash = "sha256:371072912398af61d1e4e78609e18801c6faecd3cb36c54c82556a60abc965db"},
 ]
 yamllint = [
-    {file = "yamllint-1.27.1.tar.gz", hash = "sha256:e688324b58560ab68a1a3cff2c0a474e3fed371dfe8da5d1b9817b7df55039ce"},
+    {file = "yamllint-1.28.0.tar.gz", hash = "sha256:9e3d8ddd16d0583214c5fdffe806c9344086721f107435f68bad990e5a88826b"},
 ]
