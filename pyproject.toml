@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.10"
 
 # https://pypi.org/project/ansible/#history
-ansible = "==6.3.0"
+ansible = "==6.4.0"
 # https://pypi.org/project/ansible-lint/#history
 ansible-lint = "==6.5.2"
 # https://pypi.org/project/yamllint/#history
