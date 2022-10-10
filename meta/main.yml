@@ -5,8 +5,7 @@ galaxy_info:
   author: Utku Ozdemir
   description: Ansible role to install Nebula Mesh overlay
   license: Apache-2.0
-  min_ansible_version: 2.12
-  github_branch: master
+  min_ansible_version: "2.12"
 
   platforms:
     - name: Ubuntu

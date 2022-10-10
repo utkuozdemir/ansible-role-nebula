@@ -107,11 +107,11 @@
     src: config.yml.j2
     dest: "{{ nebula_config_dir }}/config.yml"
     mode: "0644"
-  notify: restart nebula service
+  notify: Restart nebula service
 
 - name: Template nebula systemd unit
   ansible.builtin.template:
     src: nebula.service.j2
     dest: "/etc/systemd/system/{{ nebula_service_name }}.service"
     mode: "0644"
-  notify: restart nebula service
+  notify: Restart nebula service

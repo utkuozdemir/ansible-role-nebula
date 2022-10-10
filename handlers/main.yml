@@ -1,5 +1,5 @@
 ---
-- name: restart nebula service
+- name: Restart nebula service
   ansible.builtin.systemd:
     name: "{{ nebula_service_name }}"
     daemon_reload: true

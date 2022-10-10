@@ -4,6 +4,7 @@
     url: "{{ nebula_download_url }}"
     dest: "{{ nebula_download_dir }}/nebula.tar.gz"
     checksum: "{{ nebula_download_checksum | default(omit) }}"
+    mode: "0644"
 
 - name: Unarchive nebula
   ansible.builtin.unarchive:
