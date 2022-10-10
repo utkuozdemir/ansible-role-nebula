@@ -11,7 +11,7 @@ ansible-core = ">=2.13.4,<2.14.0"
 
 [[package]]
 name = "ansible-compat"
-version = "2.2.0"
+version = "2.2.1"
 description = "Ansible compatibility goodies"
 category = "main"
 optional = false
@@ -43,17 +43,16 @@ resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "ansible-lint"
-version = "6.5.2"
+version = "6.8.0"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 
 [package.dependencies]
-ansible-compat = ">=2.2.0"
+ansible-compat = ">=2.2.1"
 ansible-core = ">=2.12.0"
 black = ">=22.1.0"
-enrich = ">=1.2.6"
 filelock = "*"
 jsonschema = ">=4.9.0"
 packaging = "*"
@@ -64,7 +63,7 @@ wcmatch = ">=7.0"
 yamllint = ">=1.25.0"
 
 [package.extras]
-docs = ["myst-parser (>=0.16.1)", "pipdeptree (>=2.2.1)", "sphinx (>=4.4.0)", "sphinx-ansible-theme (>=0.9.1)", "sphinx-rtd-theme (>=0.5.2,<1.0.0)", "sphinxcontrib-apidoc (>=0.3.0)", "sphinxcontrib-programoutput2 (>=2.0a1)", "yamllint (>=1.26.3)"]
+docs = ["myst-parser (>=0.16.1)", "pipdeptree (>=2.2.1)", "sphinx (>=4.4.0)", "sphinx-ansible-theme (>=0.9.1)", "sphinx-rtd-theme (>=1.0.0,<2.0.0)", "sphinxcontrib-apidoc (>=0.3.0)", "sphinxcontrib-programoutput2 (>=2.0a1)", "yamllint (>=1.26.3)"]
 test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "flake8", "flake8-future-annotations", "flaky (>=3.7.0)", "mypy", "psutil", "pylint", "pytest (>=6.0.1)", "pytest-plus (>=0.2)", "pytest-xdist (>=2.1.0)"]
 
 [[package]]
@@ -169,20 +168,6 @@ pep8test = ["black", "flake8", "flake8-import-order", "pep8-naming"]
 sdist = ["setuptools_rust (>=0.11.4)"]
 ssh = ["bcrypt (>=3.1.5)"]
 test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pytz"]
-
-[[package]]
-name = "enrich"
-version = "1.2.6"
-description = "enrich"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-rich = ">=9.5.1"
-
-[package.extras]
-test = ["mock (>=3.0.5)", "pytest (>=5.4.0)", "pytest-cov (>=2.7.1)", "pytest-mock (>=3.3.1)", "pytest-plus", "pytest-xdist (>=1.29.0)"]
 
 [[package]]
 name = "filelock"
@@ -417,7 +402,7 @@ setuptools = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "fa717ed4553aacea97f6afc84f06fd8686119f512428e55e20305931021e2e1c"
+content-hash = "88ba709cee937eef02b957a03050c313840c5a27960faf9c0e8463d44ea7f8ba"
 
 [metadata.files]
 ansible = [
@@ -425,16 +410,16 @@ ansible = [
     {file = "ansible-6.4.0.tar.gz", hash = "sha256:80b422f73e2feeddc456581bf7de22e14ccd3e7fdb0d5060176e21c350ed8320"},
 ]
 ansible-compat = [
-    {file = "ansible-compat-2.2.0.tar.gz", hash = "sha256:676db8ec0449d1f07038625b8ebb8ceef5f8ad3a1af3ee82d4ed66b9b04cb6fa"},
-    {file = "ansible_compat-2.2.0-py3-none-any.whl", hash = "sha256:ce69a67785ae96e8962794a47494339991a0ae242ab5dd14a76ee2137d09072e"},
+    {file = "ansible-compat-2.2.1.tar.gz", hash = "sha256:7a012753a0a02dab2f22b0e574e3e7b00399f660606154474ffe25621fa80d3b"},
+    {file = "ansible_compat-2.2.1-py3-none-any.whl", hash = "sha256:8857b317bf36a00dbb0b06640d19b68bb64f667bf2a5355189f3c5961f4b1c10"},
 ]
 ansible-core = [
     {file = "ansible-core-2.13.4.tar.gz", hash = "sha256:78f45c2c472af60b9b4b8cbdaba5a3911079087891a9f6c6ed726327b8f21c6a"},
     {file = "ansible_core-2.13.4-py3-none-any.whl", hash = "sha256:d83947d23441df6f96ea934032a948a060bf6db4852d28ed5f9c7b92b39165b7"},
 ]
 ansible-lint = [
-    {file = "ansible-lint-6.5.2.tar.gz", hash = "sha256:f4432c74c0f28b2870a188b4999592f6338042f30d0c6f4ee11b32440ca9ffe4"},
-    {file = "ansible_lint-6.5.2-py3-none-any.whl", hash = "sha256:ac8241d3ce1b161f0e052b44f0d226fbda7d8f318d4f24269de7f2b87e32ff6f"},
+    {file = "ansible-lint-6.8.0.tar.gz", hash = "sha256:804dc715436cde6a74f44e808445c2f11d7efd016541b27bb6ec58cfdb1b1f6d"},
+    {file = "ansible_lint-6.8.0-py3-none-any.whl", hash = "sha256:544877ca281a70991405ee67c3bc111c7570dc28db5f08e7dcdb2b22ae6e32fc"},
 ]
 attrs = [
     {file = "attrs-21.4.0-py2.py3-none-any.whl", hash = "sha256:2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4"},
@@ -554,10 +539,6 @@ cryptography = [
     {file = "cryptography-36.0.1-pp38-pypy38_pp73-manylinux_2_24_x86_64.whl", hash = "sha256:ca28641954f767f9822c24e927ad894d45d5a1e501767599647259cbf030b903"},
     {file = "cryptography-36.0.1-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:39bdf8e70eee6b1c7b289ec6e5d84d49a6bfa11f8b8646b5b3dfe41219153316"},
     {file = "cryptography-36.0.1.tar.gz", hash = "sha256:53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638"},
-]
-enrich = [
-    {file = "enrich-1.2.6-py3-none-any.whl", hash = "sha256:ed0b3ac33495cc95f1ccafaf6c7ec0a0fcabb20f7f7a90121f37eb83a85bf82b"},
-    {file = "enrich-1.2.6.tar.gz", hash = "sha256:0e99ff57d87f7b5def0ca79917e88fb9351aa0d52e228ee38bff7cd858315fe4"},
 ]
 filelock = [
     {file = "filelock-3.8.0-py3-none-any.whl", hash = "sha256:617eb4e5eedc82fc5f47b6d61e4d11cb837c56cb4544e39081099fa17ad109d4"},
