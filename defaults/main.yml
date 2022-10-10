@@ -1,6 +1,6 @@
 ---
 # renovate: depName=slackhq/nebula
-nebula_version: v1.6.0
+nebula_version: v1.6.1
 nebula_arch: amd64
 nebula_download_url: https://github.com/slackhq/nebula/releases/download/{{ nebula_version }}/nebula-linux-{{ nebula_arch }}.tar.gz
 #nebula_download_checksum: null

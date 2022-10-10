@@ -31,21 +31,21 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.1.0
 
       - name: Setup Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: "3.10"
 
       - name: Install Poetry
-        uses: snok/install-poetry@v1.3.1
+        uses: snok/install-poetry@v1.3.2
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
       - name: Load cached Poetry virtual env
-        uses: actions/cache@v3.0.8
+        uses: actions/cache@v3.0.10
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
@@ -60,7 +60,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.0
         with:
           # renovate: depName=hashicorp/terraform
-          terraform_version: v1.2.9
+          terraform_version: v1.3.2
 
       - name: Lint terraform sources
         run: terraform fmt -recursive --check
