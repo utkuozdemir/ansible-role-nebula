@@ -57,7 +57,7 @@ jobs:
         run: poetry run ansible-lint
 
       - name: Install terraform
-        uses: hashicorp/setup-terraform@v2.0.0
+        uses: hashicorp/setup-terraform@v2.0.2
         with:
           # renovate: depName=hashicorp/terraform
           terraform_version: v1.3.2
