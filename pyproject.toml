@@ -10,11 +10,11 @@ readme = "README.md"
 python = "^3.10"
 
 # https://pypi.org/project/ansible/#history
-ansible = "==7.0.0"
+ansible = "==8.5.0"
 # https://pypi.org/project/ansible-lint/#history
-ansible-lint = "==6.8.7"
+ansible-lint = "==6.21.1"
 # https://pypi.org/project/yamllint/#history
-yamllint = "==1.28.0"
+yamllint = "==1.32.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
